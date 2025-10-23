@@ -1,0 +1,118 @@
+<nav class="bg-white dark:bg-gray-800 shadow-lg px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+  
+  <!-- Left: Mobile Menu + Search -->
+  <div class="flex items-center space-x-3 w-1/2">
+    <!-- Mobile Menu Button -->
+    <button
+      class="md:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+      (click)="toggleSidebar.emit()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Search Input -->
+    <div class="flex flex-1 items-center bg-gray-100 dark:bg-gray-700 rounded-lg px-3 py-1">
+      <input
+        type="text"
+        placeholder="Search students, teachers, notices..."
+        class="flex-1 bg-transparent outline-none text-gray-700 dark:text-gray-200 text-sm"
+      />
+      <button class="ml-2 bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition">
+        Search
+      </button>
+    </div>
+  </div>
+
+  <!-- Right: Icons & dropdowns -->
+  <div class="flex items-center space-x-4">
+
+    <!-- Academic Year Dropdown -->
+    <div class="relative group">
+      <button
+        class="flex items-center px-3 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm"
+      >
+        2023/2024
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+      <ul
+        class="absolute right-0 mt-1 w-44 bg-white dark:bg-gray-700 border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10"
+      >
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">2022/2023</li>
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">2023/2024</li>
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">2024/2025</li>
+      </ul>
+    </div>
+
+    <!-- Language Dropdown -->
+    <div class="relative group">
+      <button class="flex items-center px-3 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm">
+        EN
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+      <ul
+        class="absolute right-0 mt-1 w-32 bg-white dark:bg-gray-700 border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10"
+      >
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">English</li>
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">Bangla</li>
+      </ul>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm">
+      <svg id="sunIcon" class="h-6 w-6 text-yellow-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg id="moonIcon" class="h-6 w-6 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </button>
+
+    <!-- Notification Icon -->
+    <button class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-gray-200" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+      </svg>
+      <span class="absolute top-0 right-0 inline-block w-2 h-2 bg-red-600 rounded-full"></span>
+    </button>
+
+    <!-- Chat Icon -->
+    <button class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-gray-200" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.006 0-1.97-.144-2.872-.412L3 21l1.412-6.128A7.962 7.962 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+      </svg>
+    </button>
+
+    <!-- User Dropdown -->
+    <div class="relative group">
+      <button class="flex items-center space-x-2 px-3 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm">
+        <img src="../../../assets/img/Rakib pic.jpg" alt="Profile" class="w-8 h-8 rounded-full"/>
+        <div class="text-left">
+          <p class="text-gray-700 dark:text-gray-200 text-sm font-semibold">Rakib</p>
+          <p class="text-yellow-500 dark:text-gray-400 text-xs">Administrator</p>
+        </div>
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+      <ul class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">My Profile</li>
+        <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">Settings</li>
+        <li routerLink="/login" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">Logout</li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
