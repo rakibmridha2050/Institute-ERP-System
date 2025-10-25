@@ -1,0 +1,119 @@
+<!-- src/app/components/classes-list/classes-list.component.html -->
+<div class="container mx-auto px-4 py-6">
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Classes Management</h2>
+    <button routerLink="/admin/classes/create"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center space-x-2 transition duration-200">
+      <i class="bi bi-plus-circle"></i>
+      <span>Add New Class</span>
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage"
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 flex justify-between items-center">
+    <span>{{ errorMessage }}</span>
+    <button type="button" (click)="errorMessage = ''" class="text-red-700 hover:text-red-900">
+      <i class="bi bi-x-lg text-sm"></i>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-8">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  </div>
+
+  <!-- Classes Table -->
+  <div *ngIf="!isLoading" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <!-- Card Header -->
+    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+      <h5 class="text-lg font-semibold text-gray-800">All Classes</h5>
+    </div>
+
+    <!-- Table Container -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              ID
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Class Name
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Department
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Sections Count
+            </th>
+            <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Created Date
+            </th> -->
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let classItem of classes" class="hover:bg-gray-50 transition duration-150">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              {{ classItem.id }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">
+              {{ classItem.className }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                {{ classItem.department?.deptName }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                {{ classItem.sections?.length || 0 }}
+              </span>
+            </td>
+            <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ classItem.createdAt | date:'medium' }}
+            </td> -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span [class]="classItem.active ? 
+                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800' :
+                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800'">
+                {{ classItem.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <div class="flex items-center space-x-2">
+                <button [routerLink]="['/admin/classes/edit', classItem.id]"
+                  class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 flex items-center space-x-1">
+                  <i class="bi bi-pencil text-xs"></i>
+                  <span>Edit</span>
+                </button>
+                <button (click)="deleteClass(classItem.id)"
+                  class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 flex items-center space-x-1">
+                  <i class="bi bi-trash text-xs"></i>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="classes.length === 0">
+            <td colspan="7" class="px-6 py-8 text-center text-sm text-gray-500">
+              <div class="flex flex-col items-center justify-center space-y-2">
+                <i class="bi bi-inbox text-3xl text-gray-300"></i>
+                <span>No classes found</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

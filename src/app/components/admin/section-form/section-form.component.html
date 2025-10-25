@@ -1,0 +1,93 @@
+<!-- src/app/components/section-form/section-form.component.html -->
+<div class="container mx-auto px-4 py-6">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <!-- Card Header -->
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <h4 class="text-lg font-semibold text-gray-800">
+          {{ isEditMode ? 'Edit Section' : 'Create New Section' }}
+        </h4>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-6">
+        <!-- Success Message -->
+        <div *ngIf="successMessage"
+          class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
+          {{ successMessage }}
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage"
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 flex justify-between items-center">
+          <span>{{ errorMessage }}</span>
+          <button type="button" (click)="clearMessages()" class="text-red-700 hover:text-red-900">
+            <i class="bi bi-x-lg text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading" class="flex justify-center items-center py-8">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+
+        <!-- Form -->
+        <form [formGroup]="sectionForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading" class="space-y-6">
+          <!-- Section Name -->
+          <div>
+            <label for="sectionName" class="block text-sm font-medium text-gray-700 mb-1">
+              Section Name *
+            </label>
+            <input type="text" id="sectionName" formControlName="sectionName"
+              [class]="sectionName?.invalid && sectionName?.touched ? 
+                'w-full px-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500' :
+                'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'" placeholder="e.g., Section A">
+            <div *ngIf="sectionName?.invalid && sectionName?.touched" class="mt-1 text-sm text-red-600">
+              <span *ngIf="sectionName?.errors?.['required']">Section name is required</span>
+              <span *ngIf="sectionName?.errors?.['minlength']">Section name must be at least 2 characters</span>
+              <span *ngIf="sectionName?.errors?.['maxlength']">Section name cannot exceed 50 characters</span>
+            </div>
+          </div>
+
+          <!-- Class Selection -->
+          <div>
+            <label for="classId" class="block text-sm font-medium text-gray-700 mb-1">
+              Class *
+            </label>
+            <select id="classId" formControlName="classId"
+              [class]="classId?.invalid && classId?.touched ? 
+                'w-full px-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500' :
+                'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'">
+              <option value="">Select a Class</option>
+              <option *ngFor="let cls of classes" [value]="cls.id">
+                {{ cls.className }} - {{ cls.department?.deptName }}
+              </option>
+            </select>
+            <div *ngIf="classId?.invalid && classId?.touched" class="mt-1 text-sm text-red-600">
+              <span *ngIf="classId?.errors?.['required']">Please select a class</span>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <button type="button" (click)="onCancel()"
+              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              [disabled]="isSubmitting">
+              Cancel
+            </button>
+            <button type="submit" [disabled]="isSubmitting || sectionForm.invalid"
+              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+              <span *ngIf="isSubmitting" class="flex items-center">
+                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Processing...
+              </span>
+              <span *ngIf="!isSubmitting">
+                {{ isEditMode ? 'Update Section' : 'Create Section' }}
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

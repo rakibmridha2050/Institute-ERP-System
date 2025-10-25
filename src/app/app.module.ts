@@ -18,6 +18,10 @@ import { DepartmentListComponent } from './components/admin/department-list/depa
 import { DepartmentFormComponent } from './components/admin/department-form/department-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClassesListComponent } from './components/admin/classes-list/classes-list.component';
+import { ClassFormComponent } from './components/admin/class-form/class-form.component';
+import { SectionListComponent } from './components/admin/section-list/section-list.component';
+import { SectionFormComponent } from './components/admin/section-form/section-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     AllstudentsComponent,
     
     DepartmentListComponent,
-    DepartmentFormComponent
+    DepartmentFormComponent,
+    ClassesListComponent,
+    ClassFormComponent,
+    SectionListComponent,
+    SectionFormComponent
   ],
   imports: [
     BrowserModule,
