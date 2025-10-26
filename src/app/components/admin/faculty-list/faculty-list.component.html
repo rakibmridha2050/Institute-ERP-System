@@ -1,0 +1,71 @@
+<div class="container mx-auto mt-6 px-4">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Faculty List</h2>
+    <button routerLink="/admin/faculty/new"
+      class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+      <i class="bi bi-plus-circle text-lg"></i>
+      <span>Add New Faculty</span>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center py-10">
+    <div
+      class="animate-spin inline-block w-8 h-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full"
+      role="status" aria-label="loading"></div>
+    <p class="text-gray-500 mt-2">Loading...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error && !isLoading" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Faculty Table -->
+  <div *ngIf="!isLoading && !error" class="overflow-x-auto bg-white shadow rounded-lg">
+    <table class="min-w-full text-sm text-left text-gray-700">
+      <thead class="bg-gray-800 text-white text-sm uppercase">
+        <tr>
+          <th class="px-4 py-3">ID</th>
+          <th class="px-4 py-3">Name</th>
+          <th class="px-4 py-3">Email</th>
+          <th class="px-4 py-3">Phone</th>
+          <th class="px-4 py-3">Designation</th>
+          <th class="px-4 py-3">Department</th>
+          <th class="px-4 py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let faculty of faculties" class="border-b hover:bg-gray-50 transition">
+          <td class="px-4 py-3">{{ faculty.id }}</td>
+          <td class="px-4 py-3">{{ faculty.name }}</td>
+          <td class="px-4 py-3">{{ faculty.email }}</td>
+          <td class="px-4 py-3">{{ faculty.phone }}</td>
+          <td class="px-4 py-3">{{ faculty.designation }}</td>
+          <td class="px-4 py-3">{{ faculty.departmentName }}</td>
+          <td class="px-4 py-3 text-center space-x-2">
+            <button [routerLink]="['/admin/faculty/edit', faculty.id]"
+              class="inline-flex items-center gap-1 text-blue-600 border border-blue-600 px-3 py-1.5 rounded-md hover:bg-blue-600 hover:text-white transition">
+              <i class="bi bi-pencil"></i>
+              Edit
+            </button>
+            <button (click)="deleteFaculty(faculty.id!)"
+              class="inline-flex items-center gap-1 text-red-600 border border-red-600 px-3 py-1.5 rounded-md hover:bg-red-600 hover:text-white transition">
+              <i class="bi bi-trash"></i>
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="faculties.length === 0">
+          <td colspan="7" class="px-4 py-6 text-center text-gray-500">
+            No faculties found.
+            <span class="block">Click "Add New Faculty" to create one.</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

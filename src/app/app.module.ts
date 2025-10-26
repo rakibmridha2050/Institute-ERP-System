@@ -17,11 +17,16 @@ import { AllstudentsComponent } from './components/admin/allstudents/allstudents
 import { DepartmentListComponent } from './components/admin/department-list/department-list.component';
 import { DepartmentFormComponent } from './components/admin/department-form/department-form.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClassesListComponent } from './components/admin/classes-list/classes-list.component';
 import { ClassFormComponent } from './components/admin/class-form/class-form.component';
 import { SectionListComponent } from './components/admin/section-list/section-list.component';
 import { SectionFormComponent } from './components/admin/section-form/section-form.component';
+import { FacultyListComponent } from './components/admin/faculty-list/faculty-list.component';
+import { FacultyFormComponent } from './components/admin/faculty-form/faculty-form.component';
+import { CourseListComponent } from './components/admin/course-list/course-list.component';
+import { CourseFormComponent } from './components/admin/course-form/course-form.component';
+import { CourseFacultyComponent } from './components/admin/course-faculty/course-faculty.component';
 
 @NgModule({
   declarations: [
@@ -43,13 +48,19 @@ import { SectionFormComponent } from './components/admin/section-form/section-fo
     ClassesListComponent,
     ClassFormComponent,
     SectionListComponent,
-    SectionFormComponent
+    SectionFormComponent,
+    FacultyListComponent,
+    FacultyFormComponent,
+    CourseListComponent,
+    CourseFormComponent,
+    CourseFacultyComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

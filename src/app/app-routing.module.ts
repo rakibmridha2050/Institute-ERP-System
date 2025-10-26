@@ -11,6 +11,11 @@ import { ClassesListComponent } from './components/admin/classes-list/classes-li
 import { ClassFormComponent } from './components/admin/class-form/class-form.component';
 import { SectionListComponent } from './components/admin/section-list/section-list.component';
 import { SectionFormComponent } from './components/admin/section-form/section-form.component';
+import { FacultyListComponent } from './components/admin/faculty-list/faculty-list.component';
+import { FacultyFormComponent } from './components/admin/faculty-form/faculty-form.component';
+import { CourseFacultyComponent } from './components/admin/course-faculty/course-faculty.component';
+import { CourseFormComponent } from './components/admin/course-form/course-form.component';
+import { CourseListComponent } from './components/admin/course-list/course-list.component';
 
 const routes: Routes = [
 
@@ -27,6 +32,17 @@ const routes: Routes = [
     path: 'admin', component: AdminDashbordComponent,
     children: [
       { path: 'dashbord', component: DashbordComponent },
+
+      { path: 'faculty', component: FacultyListComponent },
+      { path: 'faculty/new', component: FacultyFormComponent },
+      { path: 'faculty/edit/:id', component: FacultyFormComponent },
+
+      { path: 'courses', component: CourseListComponent },
+  { path: 'courses/new', component: CourseFormComponent },
+  { path: 'courses/edit/:id', component: CourseFormComponent },
+  { path: 'courses/:id/faculties', component: CourseFacultyComponent },
+
+
       { path: 'departments', component: DepartmentListComponent },
       { path: 'departments/new', component: DepartmentFormComponent },
       { path: 'departments/:id/edit', component: DepartmentFormComponent },

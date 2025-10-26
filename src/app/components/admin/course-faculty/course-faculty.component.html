@@ -1,0 +1,109 @@
+<div class="max-w-7xl mx-auto mt-8 px-4">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <button (click)="goBack()"
+        class="flex items-center gap-2 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h2 class="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+        <i class="bi bi-person-gear text-blue-600"></i> Manage Course Faculties
+      </h2>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center py-10">
+    <div
+      class="animate-spin inline-block w-10 h-10 border-[3px] border-current border-t-transparent text-blue-600 rounded-full"
+      role="status"></div>
+    <p class="text-gray-500 mt-3">Loading course details...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error && !isLoading"
+    class="bg-red-100 text-red-700 border border-red-300 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
+    <i class="bi bi-exclamation-triangle"></i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Course Info and Faculty Management -->
+  <div *ngIf="course && !isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Left Section: Course Info + Add Faculty -->
+    <div class="space-y-6">
+      <!-- Course Info -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <div class="bg-cyan-600 text-white px-5 py-3">
+          <h5 class="font-semibold">Course Information</h5>
+        </div>
+        <div class="p-5 space-y-1">
+          <h6 class="text-lg font-medium text-gray-800">{{ course.courseCode }}</h6>
+          <p class="text-gray-700">{{ course.courseName }}</p>
+          <p class="text-sm text-gray-500">
+            Department: {{ course.departmentName }} <br />
+            Credits: {{ course.credits }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Add Faculty -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <div class="bg-green-600 text-white px-5 py-3">
+          <h5 class="font-semibold">Add Faculty</h5>
+        </div>
+        <div class="p-5 space-y-3">
+          <div class="flex items-center gap-2">
+            <input type="number" min="1" [(ngModel)]="newFacultyId" placeholder="Faculty ID"
+              class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+            <button (click)="addFaculty()" [disabled]="!newFacultyId"
+              class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50">
+              <i class="bi bi-plus-circle"></i> Add
+            </button>
+          </div>
+          <p class="text-xs text-gray-500">
+            Enter the faculty ID to assign to this course
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section: Assigned Faculties -->
+    <div class="md:col-span-2 bg-white rounded-xl shadow overflow-hidden">
+      <div class="bg-blue-600 text-white px-5 py-3 flex items-center justify-between">
+        <h5 class="font-semibold">Assigned Faculties</h5>
+        <span class="bg-white text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
+          {{ course.facultyIds?.length || 0 }} faculties
+        </span>
+      </div>
+
+      <div class="p-5">
+        <div *ngIf="course.facultyIds && course.facultyIds.length > 0; else noFaculties"
+          class="divide-y divide-gray-200">
+          <div *ngFor="let facultyId of course.facultyIds"
+            class="flex items-center justify-between py-3 px-2 hover:bg-gray-50 transition">
+            <div class="flex items-center gap-2 text-gray-800">
+              <i class="bi bi-person text-blue-600"></i>
+              <span><strong>Faculty ID:</strong> {{ facultyId }}</span>
+            </div>
+            <button (click)="removeFaculty(facultyId)"
+              class="flex items-center gap-1 border border-red-600 text-red-600 text-sm px-3 py-1 rounded-lg hover:bg-red-600 hover:text-white transition"
+              title="Remove Faculty">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <ng-template #noFaculties>
+          <div class="text-center text-gray-500 py-10">
+            <i class="bi bi-people text-5xl block mb-3 text-gray-400"></i>
+            <p class="text-lg font-medium">No faculties assigned yet</p>
+            <p class="text-sm text-gray-500">
+              Use the form on the left to add faculties.
+            </p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
