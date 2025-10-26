@@ -16,6 +16,8 @@ import { FacultyFormComponent } from './components/admin/faculty-form/faculty-fo
 import { CourseFacultyComponent } from './components/admin/course-faculty/course-faculty.component';
 import { CourseFormComponent } from './components/admin/course-form/course-form.component';
 import { CourseListComponent } from './components/admin/course-list/course-list.component';
+import { NoticeFormComponent } from './components/admin/notice-form/notice-form.component';
+import { NoticeListComponent } from './components/admin/notice-list/notice-list.component';
 
 const routes: Routes = [
 
@@ -38,9 +40,14 @@ const routes: Routes = [
       { path: 'faculty/edit/:id', component: FacultyFormComponent },
 
       { path: 'courses', component: CourseListComponent },
-  { path: 'courses/new', component: CourseFormComponent },
-  { path: 'courses/edit/:id', component: CourseFormComponent },
-  { path: 'courses/:id/faculties', component: CourseFacultyComponent },
+      { path: 'courses/new', component: CourseFormComponent },
+      { path: 'courses/edit/:id', component: CourseFormComponent },
+      { path: 'courses/:id/faculties', component: CourseFacultyComponent },
+
+      { path: 'notices', component: NoticeListComponent },
+      { path: 'notices/new', component: NoticeFormComponent },
+      { path: 'notices/edit/:id', component: NoticeFormComponent },
+      { path: 'notices/:id', component: NoticeFormComponent },
 
 
       { path: 'departments', component: DepartmentListComponent },
