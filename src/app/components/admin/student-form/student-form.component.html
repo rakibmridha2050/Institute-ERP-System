@@ -1,0 +1,233 @@
+<div class="w-full px-6 py-8">
+  <div class="max-w-6xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm">
+    <!-- Header -->
+    <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <h3 class="text-2xl font-semibold text-gray-800">
+        {{ isEdit ? 'Edit' : 'Add New' }} Student
+      </h3>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+      <!-- Form -->
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" *ngIf="!loading" class="space-y-8">
+
+        <!-- Basic Information -->
+        <div>
+          <h5 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">
+            Basic Information
+          </h5>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Student ID -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Student ID <span
+                  class="text-red-500">*</span></label>
+              <input type="text" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="studentId" [class.border-red-500]="isFieldInvalid('studentId')" />
+              <p *ngIf="isFieldInvalid('studentId')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('studentId') }}
+              </p>
+            </div>
+
+            <!-- Full Name -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Full Name <span
+                  class="text-red-500">*</span></label>
+              <input type="text" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="name" [class.border-red-500]="isFieldInvalid('name')" />
+              <p *ngIf="isFieldInvalid('name')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('name') }}
+              </p>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+              <input type="email" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="email" [class.border-red-500]="isFieldInvalid('email')" />
+              <p *ngIf="isFieldInvalid('email')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('email') }}
+              </p>
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Phone <span class="text-red-500">*</span></label>
+              <input type="text" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="phone" [class.border-red-500]="isFieldInvalid('phone')" />
+              <p *ngIf="isFieldInvalid('phone')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('phone') }}
+              </p>
+            </div>
+
+            <!-- Date of Birth -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Date of Birth <span
+                  class="text-red-500">*</span></label>
+              <input type="date" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="dob" [class.border-red-500]="isFieldInvalid('dob')" />
+              <p *ngIf="isFieldInvalid('dob')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('dob') }}
+              </p>
+            </div>
+
+            <!-- Gender -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Gender <span class="text-red-500">*</span></label>
+              <select class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="gender" [class.border-red-500]="isFieldInvalid('gender')">
+                <option value="">Select Gender</option>
+                <option *ngFor="let gender of genderOptions" [value]="gender.value">
+                  {{ gender.label }}
+                </option>
+              </select>
+              <p *ngIf="isFieldInvalid('gender')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('gender') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Information -->
+        <div>
+          <h5 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">
+            Academic Information
+          </h5>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Department -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Department <span
+                  class="text-red-500">*</span></label>
+              <select class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="departmentId" [class.border-red-500]="isFieldInvalid('departmentId')">
+                <option value="">Select Department</option>
+                <option *ngFor="let dept of departments" [value]="dept.deptId">
+                  {{ dept.deptName }}
+                </option>
+              </select>
+              <p *ngIf="isFieldInvalid('departmentId')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('departmentId') }}
+              </p>
+            </div>
+
+            <!-- Program -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
+              <input type="text" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="program" placeholder="e.g., BSc in Computer Science"
+                [class.border-red-500]="isFieldInvalid('program')" />
+              <p *ngIf="isFieldInvalid('program')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('program') }}
+              </p>
+            </div>
+
+            <!-- Current Semester -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Current Semester <span
+                  class="text-red-500">*</span></label>
+              <select class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="currentSemester" [class.border-red-500]="isFieldInvalid('currentSemester')">
+                <option *ngFor="let semester of semesterOptions" [value]="semester">
+                  Semester {{ semester }}
+                </option>
+              </select>
+              <p *ngIf="isFieldInvalid('currentSemester')" class="text-sm text-red-500 mt-1">
+                {{ getFieldError('currentSemester') }}
+              </p>
+            </div>
+
+            <!-- Class -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Class</label>
+              <select class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="classId">
+                <option value="">Select Class</option>
+                <option *ngFor="let class of classes" [value]="class.id">
+                  {{ class.className }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Section -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Section</label>
+              <select class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="sectionId">
+                <option value="">Select Section</option>
+                <option *ngFor="let section of sections" [value]="section.id">
+                  {{ section.sectionName }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Information -->
+        <div>
+          <h5 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">
+            Address Information
+          </h5>
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Present Address</label>
+              <textarea rows="3" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="presentAddress"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Permanent Address</label>
+              <textarea rows="3" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                formControlName="permanentAddress"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Enrollment -->
+        <div>
+          <h5 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">
+            Course Enrollment
+          </h5>
+          <div class="border p-3 rounded-md max-h-56 overflow-y-auto">
+            <div *ngFor="let course of courses" class="flex items-center mb-2">
+              <input type="checkbox" [value]="course.id" [id]="'course-' + course.id"
+                class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                (change)="onCourseSelectionChange(course.id!, $event)" />
+              <label [for]="'course-' + course.id" class="text-sm text-gray-700">
+                {{ course.courseName }} ({{ course.courseCode }})
+              </label>
+            </div>
+            <p *ngIf="courses.length === 0" class="text-gray-500 text-sm">No courses available for selected department
+            </p>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div *ngIf="isEdit">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="isActive" formControlName="isActive"
+              class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+            <label for="isActive" class="text-gray-700">Active Student</label>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end gap-3 pt-4 border-t">
+          <button type="button" (click)="onCancel()"
+            class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+            Cancel
+          </button>
+          <button type="submit" [disabled]="submitting"
+            class="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2">
+            <span *ngIf="submitting"
+              class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            {{ isEdit ? 'Update' : 'Create' }} Student
+          </button>
+        </div>
+      </form>
+
+      <!-- Loading Spinner -->
+      <div *ngIf="loading" class="text-center py-12">
+        <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      </div>
+    </div>
+  </div>
+</div>

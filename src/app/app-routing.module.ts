@@ -18,6 +18,10 @@ import { CourseFormComponent } from './components/admin/course-form/course-form.
 import { CourseListComponent } from './components/admin/course-list/course-list.component';
 import { NoticeFormComponent } from './components/admin/notice-form/notice-form.component';
 import { NoticeListComponent } from './components/admin/notice-list/notice-list.component';
+import { FacultyDetailsListComponent } from './components/admin/faculty-details-list/faculty-details-list.component';
+import { FacultyDetailsFormComponent } from './components/admin/faculty-details-form/faculty-details-form.component';
+import { StudentListComponent } from './components/admin/student-list/student-list.component';
+import { StudentFormComponent } from './components/admin/student-form/student-form.component';
 
 const routes: Routes = [
 
@@ -35,6 +39,12 @@ const routes: Routes = [
     children: [
       { path: 'dashbord', component: DashbordComponent },
 
+
+      // Student Routes
+      { path: 'students', component: StudentListComponent },
+      { path: 'students/new', component: StudentFormComponent },
+      { path: 'students/edit/:id', component: StudentFormComponent },
+
       { path: 'faculty', component: FacultyListComponent },
       { path: 'faculty/new', component: FacultyFormComponent },
       { path: 'faculty/edit/:id', component: FacultyFormComponent },
@@ -48,6 +58,16 @@ const routes: Routes = [
       { path: 'notices/new', component: NoticeFormComponent },
       { path: 'notices/edit/:id', component: NoticeFormComponent },
       { path: 'notices/:id', component: NoticeFormComponent },
+
+      { path: 'faculty-details', component: FacultyDetailsListComponent },
+      { path: 'faculty-details/create', component: FacultyDetailsFormComponent },
+      { path: 'faculty-details/edit/:id', component: FacultyDetailsFormComponent },
+      
+      
+
+
+
+
 
 
       { path: 'departments', component: DepartmentListComponent },

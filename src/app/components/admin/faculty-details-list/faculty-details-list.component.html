@@ -1,0 +1,144 @@
+<div class="w-full px-6 py-8">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Faculty Details</h2>
+    <button (click)="toggleForm()"
+      class="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+      <i class="fas" [ngClass]="showForm ? 'fa-arrow-left' : 'fa-plus'"></i>
+      {{ showForm ? 'Back to List' : 'Add Faculty Details' }}
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="p-4 mb-6 text-red-800 bg-red-100 border border-red-300 rounded-lg">
+    {{ error }}
+  </div>
+
+  <!-- Faculty Details Table -->
+  <div *ngIf="!loading && !showForm && facultyDetails.length > 0"
+    class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left text-sm text-gray-700">
+        <thead class="bg-gray-100 text-gray-800 uppercase text-xs font-semibold">
+          <tr>
+            <th class="px-6 py-3">Employee ID</th>
+            <th class="px-6 py-3">Faculty Name</th>
+            <th class="px-6 py-3">Email</th>
+            <th class="px-6 py-3">Department</th>
+            <th class="px-6 py-3">Designation</th>
+            <th class="px-6 py-3">Experience</th>
+            <th class="px-6 py-3">Joining Date</th>
+            <th class="px-6 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let details of facultyDetails" class="border-b hover:bg-gray-50 transition">
+            <td class="px-6 py-4">{{ details.employeeId }}</td>
+            <td class="px-6 py-4">{{ details.facultyName }}</td>
+            <td class="px-6 py-4">{{ details.facultyEmail }}</td>
+            <td class="px-6 py-4">{{ details.department || '—' }}</td>
+            <td class="px-6 py-4">{{ details.designation || '—' }}</td>
+            <td class="px-6 py-4">{{ details.experienceYears }} years</td>
+            <td class="px-6 py-4">{{ details.joiningDate | date }}</td>
+            <td class="px-6 py-4 text-center">
+              <div class="flex justify-center gap-2">
+                <button (click)="editFaculty(details)"
+                  class="p-2 text-blue-600 hover:text-blue-800 bg-blue-50 rounded-full transition" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button (click)="deleteFacultyDetails(details.id)"
+                  class="p-2 text-red-600 hover:text-red-800 bg-red-50 rounded-full transition" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !showForm && facultyDetails.length === 0"
+    class="flex flex-col items-center justify-center py-16 text-center">
+    <i class="fas fa-users fa-3x text-gray-400 mb-4"></i>
+    <h4 class="text-xl font-medium text-gray-600 mb-1">No Faculty Details Found</h4>
+    <p class="text-gray-500 mb-6">Get started by adding faculty details.</p>
+    <button (click)="toggleForm()"
+      class="inline-flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+      <i class="fas fa-plus"></i>
+      Add Faculty Details
+    </button>
+  </div>
+
+  <!-- Add/Edit Form -->
+  <div *ngIf="showForm" class="bg-white p-6 mt-6 border rounded-lg shadow">
+    <h3 class="text-xl font-semibold mb-4 text-gray-700">
+      {{ editMode ? 'Edit Faculty Details' : 'Add Faculty Details' }}
+    </h3>
+
+    <form [formGroup]="facultyForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Faculty Name *</label>
+          <input type="text" formControlName="facultyName"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email *</label>
+          <input type="email" formControlName="facultyEmail"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Employee ID *</label>
+          <input type="text" formControlName="employeeId"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Department</label>
+          <input type="text" formControlName="department"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Designation</label>
+          <input type="text" formControlName="designation"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Experience (Years)</label>
+          <input type="number" formControlName="experienceYears"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Joining Date</label>
+          <input type="date" formControlName="joiningDate"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4">
+        <button type="button" (click)="cancelForm()"
+          class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="facultyForm.invalid || submitting"
+          class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+          <span *ngIf="submitting"
+            class="inline-block w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          {{ editMode ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

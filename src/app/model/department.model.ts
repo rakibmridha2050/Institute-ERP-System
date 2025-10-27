@@ -2,6 +2,7 @@ export interface Department {
   deptId: number;
   deptName: string;
   deptCode: string;
+  active?: boolean;
 }
 
 export interface DepartmentCreateRequest {

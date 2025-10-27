@@ -29,6 +29,10 @@ import { CourseFormComponent } from './components/admin/course-form/course-form.
 import { CourseFacultyComponent } from './components/admin/course-faculty/course-faculty.component';
 import { NoticeListComponent } from './components/admin/notice-list/notice-list.component';
 import { NoticeFormComponent } from './components/admin/notice-form/notice-form.component';
+import { FacultyDetailsListComponent } from './components/admin/faculty-details-list/faculty-details-list.component';
+import { FacultyDetailsFormComponent } from './components/admin/faculty-details-form/faculty-details-form.component';
+import { StudentListComponent } from './components/admin/student-list/student-list.component';
+import { StudentFormComponent } from './components/admin/student-form/student-form.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,11 @@ import { NoticeFormComponent } from './components/admin/notice-form/notice-form.
     CourseFormComponent,
     CourseFacultyComponent,
     NoticeListComponent,
-    NoticeFormComponent
+    NoticeFormComponent,
+    FacultyDetailsListComponent,
+    FacultyDetailsFormComponent,
+    StudentListComponent,
+    StudentFormComponent
   ],
   imports: [
     BrowserModule,
