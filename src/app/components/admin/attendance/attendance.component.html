@@ -1,0 +1,180 @@
+<div
+  class="max-w-6xl mx-auto mt-12 p-8 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 rounded-2xl shadow-2xl text-white">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <h2 class="text-3xl font-extrabold tracking-wide">📋 Take Attendance</h2>
+    <span class="text-sm bg-white/20 px-3 py-1 rounded-full">
+      Today: {{ selectedDate | date:'fullDate' }}
+    </span>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center py-8">
+    <div class="inline-flex items-center px-4 py-2 bg-white/20 rounded-full">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+      <span>Loading...</span>
+    </div>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage"
+    class="mb-6 p-4 bg-green-500/80 backdrop-blur-sm rounded-xl border border-green-300 animate-pulse">
+    <div class="flex items-center">
+      <span class="text-lg mr-2">✅</span>
+      <span class="font-medium">{{ successMessage }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="mb-6 p-4 bg-red-500/80 backdrop-blur-sm rounded-xl border border-red-300">
+    <div class="flex items-center">
+      <span class="text-lg mr-2">❌</span>
+      <span class="font-medium">{{ errorMessage }}</span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <!-- Department -->
+    <select [(ngModel)]="selectedDepartmentId" (change)="onDepartmentChange()"
+      class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-indigo-400 transition-all">
+      <option [value]="null" disabled selected>Select Department</option>
+      <option *ngFor="let dept of departments" [value]="dept.deptId">
+        {{ dept.deptName }}
+      </option>
+    </select>
+
+    <!-- Class -->
+    <select [(ngModel)]="selectedClassId" (change)="onClassChange()" [disabled]="!selectedDepartmentId"
+      class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-purple-400 transition-all disabled:opacity-50">
+      <option [value]="null" disabled selected>Select Class</option>
+      <option *ngFor="let cls of classes" [value]="cls.id">
+        {{ cls.className }}
+      </option>
+    </select>
+
+    <!-- Section -->
+    <select [(ngModel)]="selectedSectionId" (change)="onSectionChange()" [disabled]="!selectedClassId"
+      class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-pink-400 transition-all disabled:opacity-50">
+      <option [value]="null" disabled selected>Select Section</option>
+      <option *ngFor="let section of sections" [value]="section.id">
+        {{ section.sectionName }}
+      </option>
+    </select>
+
+    <!-- Course -->
+    <select [(ngModel)]="selectedCourseId" [disabled]="!selectedSectionId"
+      class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-blue-400 transition-all disabled:opacity-50">
+      <option [value]="null" disabled selected>Select Course</option>
+      <option *ngFor="let course of courses" [value]="course.id">
+        {{ course.name }} ({{ course.code }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Additional Options -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <!-- Date -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Attendance Date</label>
+      <input type="date" [(ngModel)]="selectedDate"
+        class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-green-400">
+    </div>
+
+    <!-- Period -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Period Number</label>
+      <select [(ngModel)]="periodNumber" class="p-3 rounded-xl text-gray-800 w-full focus:ring-4 focus:ring-yellow-400">
+        <option value="1">1st Period</option>
+        <option value="2">2nd Period</option>
+        <option value="3">3rd Period</option>
+        <option value="4">4th Period</option>
+      </select>
+    </div>
+
+    <!-- Stats -->
+    <div class="bg-white/10 p-4 rounded-xl">
+      <div class="text-sm opacity-80">Attendance Summary</div>
+      <div class="flex gap-4 mt-2">
+        <span class="text-green-300">Present: {{ getAttendanceStats().present }}</span>
+        <span class="text-red-300">Absent: {{ getAttendanceStats().absent }}</span>
+        <span class="text-yellow-300">Total: {{ getAttendanceStats().total }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student List -->
+  <div *ngIf="students.length > 0" class="bg-white text-gray-800 p-6 rounded-2xl shadow-lg space-y-4">
+
+    <!-- Student Row -->
+    <div *ngFor="let student of students"
+      class="flex justify-between items-center p-4 border rounded-xl hover:shadow-md transition-all duration-300"
+      [class.bg-green-50]="getAttendanceStatus(student.studentId) === AttendanceStatus.PRESENT"
+      [class.bg-red-50]="getAttendanceStatus(student.studentId) === AttendanceStatus.ABSENT"
+      [class.bg-yellow-50]="getAttendanceStatus(student.studentId) === AttendanceStatus.LATE">
+
+      <!-- Student Info -->
+      <div>
+        <span class="font-bold text-lg block">{{ student.name }}</span>
+        <p class="text-sm text-gray-500">Roll: {{ student.studentId }}</p>
+        <p class="text-xs text-gray-400">{{ student.email }}</p>
+      </div>
+
+      <!-- Attendance Buttons -->
+      <div class="flex gap-3">
+        <!-- Present Button -->
+        <button (click)="markAttendance(student.studentId, AttendanceStatus.PRESENT)"
+          [class]="getAttendanceStatus(student.studentId) === AttendanceStatus.PRESENT ? 
+                   'px-4 py-2 rounded-lg font-medium shadow bg-green-600 text-white hover:scale-105 transition transform' :
+                   'px-4 py-2 rounded-lg font-medium shadow bg-gray-200 text-gray-800 hover:bg-green-500 hover:text-white hover:scale-105 transition transform'">
+          Present
+        </button>
+
+        <!-- Absent Button -->
+        <button (click)="markAttendance(student.studentId, AttendanceStatus.ABSENT)"
+          [class]="getAttendanceStatus(student.studentId) === AttendanceStatus.ABSENT ? 
+                   'px-4 py-2 rounded-lg font-medium shadow bg-red-600 text-white hover:scale-105 transition transform' :
+                   'px-4 py-2 rounded-lg font-medium shadow bg-gray-200 text-gray-800 hover:bg-red-500 hover:text-white hover:scale-105 transition transform'">
+          Absent
+        </button>
+
+        <!-- Late Button -->
+        <button (click)="markAttendance(student.studentId, AttendanceStatus.LATE)"
+          [class]="getAttendanceStatus(student.studentId) === AttendanceStatus.LATE ? 
+                   'px-4 py-2 rounded-lg font-medium shadow bg-yellow-600 text-white hover:scale-105 transition transform' :
+                   'px-4 py-2 rounded-lg font-medium shadow bg-gray-200 text-gray-800 hover:bg-yellow-500 hover:text-white hover:scale-105 transition transform'">
+          Late
+        </button>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-6 text-right">
+      <button (click)="submitAttendance()" [disabled]="!canSubmitAttendance() || loading" [class]="canSubmitAttendance() && !loading ? 
+                 'bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-blue-700 hover:scale-105 transition transform' :
+                 'bg-gray-400 text-gray-200 px-6 py-3 rounded-xl font-semibold shadow-md cursor-not-allowed'">
+
+        <span *ngIf="loading" class="flex items-center">
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+          Submitting...
+        </span>
+<span *ngIf="!loading">
+  ✅ Submit Attendance ({{ getMarkedStudentsCount() }} marked)
+</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty States -->
+  <div *ngIf="selectedSectionId && students.length === 0 && !loading" class="bg-white/10 p-8 rounded-2xl text-center">
+    <div class="text-4xl mb-4">👥</div>
+    <h3 class="text-xl font-semibold mb-2">No Students Found</h3>
+    <p class="opacity-80">No students are registered in this section.</p>
+  </div>
+
+  <div *ngIf="!selectedSectionId && !loading" class="bg-white/10 p-8 rounded-2xl text-center">
+    <div class="text-4xl mb-4">📚</div>
+    <h3 class="text-xl font-semibold mb-2">Select Filters</h3>
+    <p class="opacity-80">Please select department, class, and section to view students.</p>
+  </div>
+</div>

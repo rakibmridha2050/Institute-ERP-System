@@ -1,0 +1,70 @@
+<!-- <div class="container mx-auto mt-8 px-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Attendance Records</h2>
+    <button routerLink="/admin/attendances/create"
+      class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition">
+      <i class="fas fa-plus"></i> Add Attendance
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="flex justify-center py-8">
+    <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+    </svg>
+  </div>
+
+  <div *ngIf="error" class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && attendances.length > 0"
+    class="bg-white shadow-lg rounded-2xl border border-gray-200 overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead class="bg-gray-100 border-b">
+        <tr>
+          <th class="px-4 py-3 font-semibold text-gray-700">Student</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Faculty</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Class</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Section</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Date</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Status</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of attendances" class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3">{{ a.studentName }}</td>
+          <td class="px-4 py-3">{{ a.facultyName }}</td>
+          <td class="px-4 py-3">{{ a.className || '-' }}</td>
+          <td class="px-4 py-3">{{ a.sectionName || '-' }}</td>
+          <td class="px-4 py-3">{{ a.attendanceDate | date: 'short' }}</td>
+          <td class="px-4 py-3">
+            <span [ngClass]="{
+                'px-2 py-1 rounded-full text-xs font-medium': true,
+                'bg-green-100 text-green-700': a.status === 'PRESENT',
+                'bg-red-100 text-red-700': a.status === 'ABSENT',
+                'bg-yellow-100 text-yellow-700': a.status === 'LATE'
+              }">
+              {{ a.status }}
+            </span>
+          </td>
+          <td class="px-4 py-3 flex gap-2">
+            <button (click)="onEdit(a.id)"
+              class="text-blue-600 border border-blue-600 px-3 py-1 rounded-md hover:bg-blue-50 text-sm">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button (click)="onDelete(a.id)"
+              class="text-red-600 border border-red-600 px-3 py-1 rounded-md hover:bg-red-50 text-sm">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && attendances.length === 0" class="text-center mt-8">
+    <p class="text-gray-600">No attendance records found.</p>
+  </div>
+</div> -->

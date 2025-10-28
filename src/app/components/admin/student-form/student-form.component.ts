@@ -206,9 +206,15 @@ export class StudentFormComponent implements OnInit {
     }
   }
 
+ 
+  
+
   createStudent(studentDTO: StudentDTO): void {
+     console.log(studentDTO);
     this.studentService.createStudent(studentDTO).subscribe({
       next: (student) => {
+        console.log(student);
+        
         alert('Student created successfully');
         this.router.navigate(['/admin/students']);
       },

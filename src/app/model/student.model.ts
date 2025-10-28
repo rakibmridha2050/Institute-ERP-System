@@ -1,3 +1,4 @@
+import { AttendanceStatus } from "./attendance-status.enum";
 import { Classes } from "./classes.model";
 import { Course } from "./course.model";
 import { Department } from "./department.model";
@@ -10,6 +11,7 @@ export interface Student {
   email: string;
   phone: string;
   dob: Date;
+  status?: AttendanceStatus;
   gender: string;
   program: string;
   currentSemester: number;

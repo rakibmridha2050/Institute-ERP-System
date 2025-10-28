@@ -25,6 +25,9 @@ import { StudentFormComponent } from './components/admin/student-form/student-fo
 import { ScheduleClassFormComponent } from './components/admin/schedule-class-form/schedule-class-form.component';
 import { ScheduleClassListComponent } from './components/admin/schedule-class-list/schedule-class-list.component';
 
+import { AttendanceListComponent } from './components/admin/attendance-list/attendance-list.component';
+import { AttendanceComponent } from './components/admin/attendance/attendance.component';
+
 const routes: Routes = [
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -67,6 +70,12 @@ const routes: Routes = [
       
       
 
+
+       { path: 'attendances', component: AttendanceComponent },
+
+      // { path: 'attendances', component: AttendanceListComponent },
+      // { path: 'attendances/create', component: AttendanceFormComponent },
+      // { path: 'attendances/edit/:id', component: AttendanceFormComponent },
 
       
       

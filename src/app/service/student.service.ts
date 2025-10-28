@@ -19,6 +19,10 @@ export class StudentService {
     return this.http.post<StudentResponseDTO>(this.apiUrl, studentDTO);
   }
 
+    getStudentsBySectionId(sectionId: number): Observable<StudentResponseDTO[]> {
+    return this.http.get<StudentResponseDTO[]>(`${this.apiUrl}/section/${sectionId}`);
+  }
+
   getAllStudents(): Observable<StudentResponseDTO[]> {
     return this.http.get<StudentResponseDTO[]>(this.apiUrl);
   }

@@ -35,6 +35,9 @@ import { StudentListComponent } from './components/admin/student-list/student-li
 import { StudentFormComponent } from './components/admin/student-form/student-form.component';
 import { ScheduleClassListComponent } from './components/admin/schedule-class-list/schedule-class-list.component';
 import { ScheduleClassFormComponent } from './components/admin/schedule-class-form/schedule-class-form.component';
+import { AttendanceListComponent } from './components/admin/attendance-list/attendance-list.component';
+
+import { AttendanceComponent } from './components/admin/attendance/attendance.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +72,10 @@ import { ScheduleClassFormComponent } from './components/admin/schedule-class-fo
     StudentListComponent,
     StudentFormComponent,
     ScheduleClassListComponent,
-    ScheduleClassFormComponent
+    ScheduleClassFormComponent,
+    AttendanceListComponent,
+    
+    AttendanceComponent
   ],
   imports: [
     BrowserModule,
