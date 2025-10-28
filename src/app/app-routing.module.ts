@@ -22,6 +22,8 @@ import { FacultyDetailsListComponent } from './components/admin/faculty-details-
 import { FacultyDetailsFormComponent } from './components/admin/faculty-details-form/faculty-details-form.component';
 import { StudentListComponent } from './components/admin/student-list/student-list.component';
 import { StudentFormComponent } from './components/admin/student-form/student-form.component';
+import { ScheduleClassFormComponent } from './components/admin/schedule-class-form/schedule-class-form.component';
+import { ScheduleClassListComponent } from './components/admin/schedule-class-list/schedule-class-list.component';
 
 const routes: Routes = [
 
@@ -66,7 +68,11 @@ const routes: Routes = [
       
 
 
-
+      
+      
+      { path: 'schedule-classes', component: ScheduleClassListComponent },
+      { path: 'schedule-classes/create', component: ScheduleClassFormComponent },
+      { path: 'schedule-classes/edit/:id', component: ScheduleClassFormComponent },
 
 
 

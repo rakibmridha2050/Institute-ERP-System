@@ -1,0 +1,100 @@
+<div class="container mx-auto mt-8 px-4">
+  <div class="flex justify-center">
+    <div class="w-full max-w-2xl">
+      <div class="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-200">
+        <!-- Header -->
+        <div class="bg-gray-100 px-6 py-4 border-b border-gray-200">
+          <h4 class="text-xl font-semibold text-gray-800">
+            {{ isEdit ? 'Edit' : 'Create' }} Schedule Class
+          </h4>
+        </div>
+
+        <div class="p-6">
+          <!-- Loading Spinner -->
+          <div *ngIf="loading" class="flex justify-center py-8">
+            <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="error" class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg mb-4"
+            role="alert">
+            {{ error }}
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="scheduleClassForm" (ngSubmit)="onSubmit()" *ngIf="!loading" class="space-y-4">
+            <!-- Type -->
+            <div>
+              <label for="type" class="block text-sm font-medium text-gray-700 mb-1">
+                Type
+              </label>
+              <input id="type" type="text" formControlName="type" placeholder="Enter type (e.g., Class, Lab, etc.)"
+                [class.border-red-500]="isFieldInvalid('type')"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <p *ngIf="isFieldInvalid('type')" class="text-sm text-red-600 mt-1">
+                {{ getFieldError('type') }}
+              </p>
+            </div>
+
+            <!-- Start Time -->
+            <div>
+              <label for="startTime" class="block text-sm font-medium text-gray-700 mb-1">
+                Start Time
+              </label>
+              <input id="startTime" type="time" formControlName="startTime"
+                [class.border-red-500]="isFieldInvalid('startTime')"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <p *ngIf="isFieldInvalid('startTime')" class="text-sm text-red-600 mt-1">
+                {{ getFieldError('startTime') }}
+              </p>
+            </div>
+
+            <!-- End Time -->
+            <div>
+              <label for="endTime" class="block text-sm font-medium text-gray-700 mb-1">
+                End Time
+              </label>
+              <input id="endTime" type="time" formControlName="endTime"
+                [class.border-red-500]="isFieldInvalid('endTime')"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <p *ngIf="isFieldInvalid('endTime')" class="text-sm text-red-600 mt-1">
+                {{ getFieldError('endTime') }}
+              </p>
+            </div>
+
+            <!-- Status -->
+            <div>
+              <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+                Status
+              </label>
+              <select id="status" formControlName="status" [class.border-red-500]="isFieldInvalid('status')"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <p *ngIf="isFieldInvalid('status')" class="text-sm text-red-600 mt-1">
+                {{ getFieldError('status') }}
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-3 pt-2">
+              <button type="submit" [disabled]="loading"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                {{ isEdit ? 'Update' : 'Create' }} Schedule Class
+              </button>
+              <button type="button" (click)="onCancel()"
+                class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
