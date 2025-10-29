@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,10 @@ import { ScheduleClassFormComponent } from './components/admin/schedule-class-fo
 import { AttendanceListComponent } from './components/admin/attendance-list/attendance-list.component';
 
 import { AttendanceComponent } from './components/admin/attendance/attendance.component';
+import { FeeStructureComponent } from './components/admin/fee-structure/fee-structure.component';
+import { FeeStructureFormComponent } from './components/admin/fee-structure-form/fee-structure-form.component';
+import { StudentFeeListComponent } from './components/admin/student-fee-list/student-fee-list.component';
+import { PaymentListComponent } from './components/admin/payment-list/payment-list.component';
 
 @NgModule({
   declarations: [
@@ -75,11 +80,16 @@ import { AttendanceComponent } from './components/admin/attendance/attendance.co
     ScheduleClassFormComponent,
     AttendanceListComponent,
     
-    AttendanceComponent
+    AttendanceComponent,
+          FeeStructureComponent,
+          FeeStructureFormComponent,
+          StudentFeeListComponent,
+          PaymentListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule

@@ -27,6 +27,10 @@ import { ScheduleClassListComponent } from './components/admin/schedule-class-li
 
 import { AttendanceListComponent } from './components/admin/attendance-list/attendance-list.component';
 import { AttendanceComponent } from './components/admin/attendance/attendance.component';
+import { FeeStructureComponent } from './components/admin/fee-structure/fee-structure.component';
+import { FeeStructureFormComponent } from './components/admin/fee-structure-form/fee-structure-form.component';
+import { PaymentListComponent } from './components/admin/payment-list/payment-list.component';
+import { StudentFeeListComponent } from './components/admin/student-fee-list/student-fee-list.component';
 
 const routes: Routes = [
 
@@ -67,21 +71,34 @@ const routes: Routes = [
       { path: 'faculty-details', component: FacultyDetailsListComponent },
       { path: 'faculty-details/create', component: FacultyDetailsFormComponent },
       { path: 'faculty-details/edit/:id', component: FacultyDetailsFormComponent },
-      
-      
 
 
-       { path: 'attendances', component: AttendanceComponent },
+
+
+      { path: 'attendances', component: AttendanceComponent },
 
       // { path: 'attendances', component: AttendanceListComponent },
       // { path: 'attendances/create', component: AttendanceFormComponent },
       // { path: 'attendances/edit/:id', component: AttendanceFormComponent },
 
-      
-      
+
+
       { path: 'schedule-classes', component: ScheduleClassListComponent },
       { path: 'schedule-classes/create', component: ScheduleClassFormComponent },
       { path: 'schedule-classes/edit/:id', component: ScheduleClassFormComponent },
+
+
+
+
+
+
+      // payment routing
+
+      { path: 'payment/fee-structures', component: FeeStructureComponent },
+      { path: 'payment/fee-structures/create', component: FeeStructureFormComponent },
+      { path: 'payment/fee-structures/edit/:id', component: FeeStructureFormComponent },
+      { path: 'payment/student-fees', component: StudentFeeListComponent },
+      { path: 'payment/payments', component: PaymentListComponent },
 
 
 
@@ -94,9 +111,9 @@ const routes: Routes = [
       { path: 'classes/edit/:id', component: ClassFormComponent },
 
 
-        { path: 'sections', component: SectionListComponent },
-        { path: 'sections/create', component: SectionFormComponent },
-        { path: 'sections/edit/:id', component: SectionFormComponent },
+      { path: 'sections', component: SectionListComponent },
+      { path: 'sections/create', component: SectionFormComponent },
+      { path: 'sections/edit/:id', component: SectionFormComponent },
 
       { path: '', redirectTo: 'dashbord', pathMatch: 'full' }
 

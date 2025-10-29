@@ -1,0 +1,85 @@
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">
+      {{ isEditMode ? 'Edit' : 'Create' }} Fee Structure
+    </h1>
+    <p class="text-gray-600 mt-1">
+      {{ isEditMode ? 'Update the fee structure details' : 'Create a new fee structure for students' }}
+    </p>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+    <div class="flex items-center">
+      <svg class="w-5 h-5 text-danger-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span class="text-danger-700">{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="feeStructureForm" (ngSubmit)="onSubmit()" class="card p-6">
+    <!-- Structure Name -->
+    <div class="mb-4">
+      <label for="structureName" class="block text-sm font-medium text-gray-700 mb-2">
+        Structure Name *
+      </label>
+      <input type="text" id="structureName" formControlName="structureName" class="form-input"
+        placeholder="e.g., BSc CSE - Semester 1" [class.border-danger-300]="isFieldInvalid('structureName')">
+      <div *ngIf="isFieldInvalid('structureName')" class="mt-1 text-danger-600 text-sm">
+        {{ getFieldError('structureName') }}
+      </div>
+    </div>
+
+    <!-- Academic Year -->
+    <div class="mb-4">
+      <label for="academicYear" class="block text-sm font-medium text-gray-700 mb-2">
+        Academic Year *
+      </label>
+      <input type="text" id="academicYear" formControlName="academicYear" class="form-input"
+        placeholder="e.g., 2024-2025" [class.border-danger-300]="isFieldInvalid('academicYear')">
+      <div *ngIf="isFieldInvalid('academicYear')" class="mt-1 text-danger-600 text-sm">
+        {{ getFieldError('academicYear') }}
+      </div>
+    </div>
+
+    <!-- Semester -->
+    <div class="mb-4">
+      <label for="semester" class="block text-sm font-medium text-gray-700 mb-2">
+        Class *
+      </label>
+      <select id="semester" formControlName="semester" class="form-select"
+        [class.border-danger-300]="isFieldInvalid('semester')">
+        <option value="">Select Class</option>
+        <option value="1">Class 11</option>
+        <option value="2">Class 11</option>
+        
+      </select>
+      <div *ngIf="isFieldInvalid('semester')" class="mt-1 text-danger-600 text-sm">
+        {{ getFieldError('semester') }}
+      </div>
+    </div>
+
+    <!-- Active Status -->
+    <div class="mb-6">
+      <label class="flex items-center">
+        <input type="checkbox" formControlName="isActive" class="form-checkbox">
+        <span class="ml-2 text-sm text-gray-700">Active</span>
+      </label>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+      <button type="button" (click)="onCancel()" class="btn btn-secondary" [disabled]="loading">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="feeStructureForm.invalid || loading">
+        <span *ngIf="loading" class="loading-spinner mr-2"></span>
+        {{ loading ? 'Saving...' : (isEditMode ? 'Update' : 'Create') }}
+      </button>
+    </div>
+  </form>
+</div>

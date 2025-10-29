@@ -1,0 +1,117 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Student Fee Invoices</h1>
+      <p class="text-gray-600 mt-1">Manage student fee invoices and payments</p>
+    </div>
+    <button routerLink="/payment/student-fees/generate" class="btn btn-primary flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+        </path>
+      </svg>
+      Generate Invoice
+    </button>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+    <div class="flex items-center">
+      <svg class="w-5 h-5 text-danger-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span class="text-danger-700">{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="card p-8 text-center">
+    <div class="loading-spinner mx-auto mb-4"></div>
+    <p class="text-gray-600">Loading student fees...</p>
+  </div>
+
+  <!-- Student Fees Table -->
+  <div *ngIf="!loading" class="card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead class="table-header">
+          <tr>
+            <th class="table-header-cell">Student Name</th>
+            <th class="table-header-cell">Fee Structure</th>
+            <th class="table-header-cell">Total Amount</th>
+            <th class="table-header-cell">Paid Amount</th>
+            <th class="table-header-cell">Remaining</th>
+            <th class="table-header-cell">Due Date</th>
+            <th class="table-header-cell">Status</th>
+            <th class="table-header-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let fee of studentFees" class="table-row">
+            <td class="table-cell font-medium text-gray-900">
+              {{ fee.studentName }}
+            </td>
+            <td class="table-cell">
+              {{ fee.feeStructureName }}
+            </td>
+            <td class="table-cell font-medium">
+              {{ formatCurrency(fee.totalAmount) }}
+            </td>
+            <td class="table-cell">
+              {{ formatCurrency(fee.paidAmount) }}
+            </td>
+            <td class="table-cell font-medium" [class.text-danger-600]="fee.remainingAmount > 0">
+              {{ formatCurrency(fee.remainingAmount) }}
+            </td>
+            <td class="table-cell">
+              {{ formatDate(fee.dueDate) }}
+            </td>
+            <td class="table-cell">
+              <span [class]="getStatusClass(fee.status)">
+                {{ fee.status }}
+              </span>
+            </td>
+            <td class="table-cell">
+              <div class="flex items-center gap-2">
+                <button (click)="viewPayments(fee)"
+                  class="text-primary-600 hover:text-primary-900 p-1 rounded transition-colors" title="View Payments">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                    </path>
+                  </svg>
+                </button>
+                <button (click)="makePayment(fee)"
+                  class="text-success-600 hover:text-success-900 p-1 rounded transition-colors" title="Make Payment">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="studentFees.length === 0" class="text-center py-12">
+      <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+        </path>
+      </svg>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No student fee invoices</h3>
+      <p class="text-gray-600 mb-4">Generate invoices for students to get started.</p>
+      <button routerLink="/payment/student-fees/generate" class="btn btn-primary">
+        Generate Invoice
+      </button>
+    </div>
+  </div>
+</div>
